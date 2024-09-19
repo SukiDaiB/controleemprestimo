@@ -1,6 +1,6 @@
 import { Emprestimo } from "../entity/emprestimo";
 
-export interface UsuarioRepository{
+export interface EmprestimoRepository{
     getAll(): Emprestimo[];
     getById(id: string): Emprestimo;
     create(emprestimo: Emprestimo): void;
