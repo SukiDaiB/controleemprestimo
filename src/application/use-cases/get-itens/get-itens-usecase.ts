@@ -5,22 +5,25 @@ import { GetItensOutput } from "./get-itens-output";
 
 export class GetItensUseCase{
     constructor(readonly itemRepository: ItemRepository){}
+
     execute(input: GetItensInput): GetItensOutput[]{
         const listaDeItens = this.itemRepository.getAll();
 
         const output: GetItensOutput[] = [];
 
-        for(const itemdalista of listaDeItens){
-            output.push{
+        for (const itemdalista of listaDeItens){
+            output.push(
                 {
                     id: itemdalista.getId(),
                     name: itemdalista.getName(),
-                    tipoItem: {
-                        id: itemdalista.getTipoItem
+                    itemType: {
+                        id: itemdalista.getTipoItem().getId(),
+                        name: itemdalista.getTipoItem().getName()
                     }
                 }
-            }
+            )
         }
         
+        return output;
     }
 }
