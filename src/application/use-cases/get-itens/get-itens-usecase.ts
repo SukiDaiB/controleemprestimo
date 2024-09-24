@@ -1,4 +1,3 @@
-import { TipoItem } from "../../../domain/entity/tipo-item";
 import { ItemRepository } from "../../../domain/repository/item-repository";
 import { GetItensInput } from "./get-itens-input";
 import { GetItensOutput } from "./get-itens-output";
@@ -11,19 +10,19 @@ export class GetItensUseCase{
 
         const output: GetItensOutput[] = [];
 
-        for (const itemdalista of listaDeItens){
+        for (const itemDalista of listaDeItens){
             output.push(
                 {
-                    id: itemdalista.getId(),
-                    name: itemdalista.getName(),
+                    id: itemDalista.getId(),
+                    name: itemDalista.getName(),
                     itemType: {
-                        id: itemdalista.getTipoItem().getId(),
-                        name: itemdalista.getTipoItem().getName()
+                        id: itemDalista.getTipoItem().getId(),
+                        name: itemDalista.getTipoItem().getName()
                     }
                 }
             )
         }
-        
+
         return output;
     }
 }
