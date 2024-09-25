@@ -6,7 +6,7 @@ export class Item {
     private id: string;
     private tipoItem: TipoItem;
 
-    constructor(tipoItem:TipoItem , name: string, id?: string){
+    constructor(name: string, tipoItem:TipoItem, id?: string){
         this.name = name;
         if (!id) {
             id = v4();

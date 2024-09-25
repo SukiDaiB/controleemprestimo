@@ -1,4 +1,3 @@
-import { TipoItem } from "../../../domain/entity/tipo-item";
 import { ItemRepository } from "../../../domain/repository/item-repository";
 import { GetItensInput } from "./get-itens-input";
 import { GetItensOutput } from "./get-itens-output";

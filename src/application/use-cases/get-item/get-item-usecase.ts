@@ -6,5 +6,6 @@ export class GetItemUseCase{
     constructor(readonly itemRepository: ItemRepository){}
     execute(input: GetItemInput): GetItemOutput{
         return {}
+        
     }
 }
