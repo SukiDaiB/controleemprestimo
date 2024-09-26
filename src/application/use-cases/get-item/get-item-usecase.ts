@@ -4,8 +4,19 @@ import { GetItemOutput } from "./get-item-output";
 
 export class GetItemUseCase{
     constructor(readonly itemRepository: ItemRepository){}
+
     execute(input: GetItemInput): GetItemOutput{
-        return {}
+        const item = this.itemRepository.getById(input.id);
         
+        const output: GetItemOutput = {
+            id:item.getId(),
+            name:item.getName(),
+            itemType: {
+                id: item.getTipoItem().getId(),
+                name: item.getTipoItem().getName()
+            }
+        }
+
+        return output;       
     }
 }
