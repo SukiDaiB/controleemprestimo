@@ -17,7 +17,7 @@ export class ItemRepositoryMemory implements ItemRepository {
         throw new Error("Method not implemented.");
     }
     create(item: Item): void {
-        throw new Error("Method not implemented.");
+        this.itens.push(item);
     }
     update(item: Item): void {
         throw new Error("Method not implemented.");
