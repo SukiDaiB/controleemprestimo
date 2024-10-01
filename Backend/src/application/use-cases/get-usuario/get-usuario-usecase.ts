@@ -5,7 +5,6 @@ import { GetUsuarioOutput } from "./get-usuario-output";
 export class GetUsuarioUseCase{
     constructor(readonly usuarioRepository: UsuarioRepository){}
     
-
     execute(input: GetUsuarioInput):GetUsuarioOutput{
         const usuario = this.usuarioRepository.getById(input.id);
 
