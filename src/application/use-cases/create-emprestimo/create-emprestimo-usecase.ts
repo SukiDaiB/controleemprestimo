@@ -9,7 +9,7 @@ export class CreateEmprestimoUseCase{
         
         const output: CreateEmprestimoOutput = {
             id: emprestimo.getId(),
-            item: emprestimo.
+            item: emprestimo.getId(),
         }
         
         return {}
