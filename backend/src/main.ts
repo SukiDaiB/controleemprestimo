@@ -24,8 +24,8 @@ const emprestimoRM = new EmprestimoRepositoryMemory();
 const itemController = new ItemController(itemRM, tipoItemRM);
 const tipoItemController = new TipoItemController(tipoItemRM);
 const usuarioController = new UsuarioController(usuarioRM);
-const pessoaController = new PessoaController();
-const emprestimoController = new EmprestimoController();
+const pessoaController = new PessoaController(pessoaRM);
+const emprestimoController = new EmprestimoController(emprestimoRM);
 
 
 app.get('/',(request,response) => {
