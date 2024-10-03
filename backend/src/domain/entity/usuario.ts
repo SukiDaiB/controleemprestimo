@@ -15,10 +15,10 @@ export class Usuario {
         this.pessoa = pessoa
     }
 
-    getUsername(): string {
+    getUsername(): String {
         return this.username;
     }   
-    getId(): string {
+    getId(): String {
         return this.id
     }
     getPessoa(): Pessoa {

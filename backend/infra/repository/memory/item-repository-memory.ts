@@ -14,7 +14,13 @@ export class ItemRepositoryMemory implements ItemRepository {
         ]
     }
     getById(id: string): Item {
-        throw new Error("Method not implemented.");
+        const item = this.itens.find(valor => valor.getId() == id);
+
+        if(!item) {
+            throw new Error('Item not Found')
+        }
+
+        return item;
     }
     create(item: Item): void {
         this.itens.push(item);
