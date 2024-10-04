@@ -4,16 +4,14 @@ import { CreateEmprestimoOutput } from "./create-emprestimo-usecase-output";
 
 export class CreateEmprestimoUseCase{
     constructor(readonly emprestimoRepository: EmprestimoRepository) {}
-    execute(input: CreateEmprestimoInput):CreateEmprestimoOutput{
-        const emprestimo = this.emprestimoRepository.();
-        
-        const output: CreateEmprestimoOutput = {
-            id: emprestimo.getId(),
-            item: emprestimo.getId(),
-        }
-        
-        return {}
-    }
+    /*execute(input: CreateEmprestimoInput):CreateEmprestimoOutput{
+        return {
+            id: "",
+            username: "",
+            pessoa: {
+                id: "",
+            }
+    }*/
 }
 
 

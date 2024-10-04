@@ -6,8 +6,8 @@ import { UpdateTipoItemUseCase } from "../use-cases/update-tipo-item/update-tipo
 export class TipoItemController{
     constructor(private readonly tipoItemRepository: TipoItemRepository){}
     getAll(input: any) {
-        const getItens = new GetTipoItensUseCase(this.tipoItemRepository);
-        return getItens.execute(input);
+        const getTipoItens = new GetTipoItensUseCase(this.tipoItemRepository);
+        return getTipoItens.execute(input);
     }
     create(input: any){
         const createTipoItemUseCase = new CreateTipoItemUseCase(this.tipoItemRepository);

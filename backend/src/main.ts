@@ -41,7 +41,19 @@ app.post('/itens', (request,response) => {
 })
 
 app.get('/tipo-itens', (request, response) => {
-    response.send(TipoItemController.getAll({}));
+    response.send(tipoItemController.getAll({}));
+})
+
+app.get('/usuarios', (request, response) => {
+    response.send(usuarioController.getAll({}));
+})
+
+app.get('/pessoas', (request, response) => {
+    response.send(pessoaController.getAll({}));
+})
+
+app.get('/emprestimos', (request, response) => {
+    response.send(emprestimoController.getAll({}));
 })
 
 app.listen(port, () => {
