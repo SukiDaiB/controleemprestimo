@@ -2,11 +2,11 @@ import { v4 } from 'uuid';
 import { TipoItem } from './tipo-item';
 
 export class Item {
-    private name: string;
-    private id: string;
+    //private name: string;
+    readonly id: string;
     private tipoItem: TipoItem;
 
-    constructor(name: string, tipoItem:TipoItem, id?: string){
+    constructor(readonly name:string, tipoItem:TipoItem, id?: string){
         this.name = name;
         if (!id) {
             id = v4();

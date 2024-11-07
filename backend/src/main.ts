@@ -1,60 +1,62 @@
+import { config } from "dotenv";
 import express from 'express';
-import { ItemController } from './application/controller/item-controller';
-import { ItemRepositoryMemory } from '../infra/repository/memory/item-repository-memory';
-import { TipoItemRepositoryMemory } from '../infra/repository/memory/tipo-item-repository-memory';
-import { TipoItemController } from './application/controller/tipo-item-controller';
-import { UsuarioController } from './application/controller/usuario-controller';
-import { PessoaController } from './application/controller/pessoa-controller';
-import { EmprestimoController } from './application/controller/emprestimo-controller';
-import { UsuarioRepositoryMemory } from '../infra/repository/memory/usuario-repository-memory';
-import { PessoaRepositoryMemory } from '../infra/repository/memory/pessoa-repository-memory';
-import { EmprestimoRepositoryMemory } from '../infra/repository/memory/emprestimo-repository-memory';
+import { PostgresConnection } from "./infra/database/postgres-connection";
+import { DatabaseRepositoryFactory } from "./infra/database/database-repository-factory";
+import { ItemController } from "./application/controller/item-controller";
 
+config();
 const app = express();
 const port = 3003;
-
 app.use(express.json())
+app.all('*', function (req, res, next) {
+			res.header('Access-Control-Allow-Origin', '*');
+			res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+			res.header('Access-Control-Allow-Headers', 'Content-Type, access-token');
+			next();
+		});
 
-const itemRM = new ItemRepositoryMemory();
-const tipoItemRM = new TipoItemRepositoryMemory();
-const usuarioRM = new UsuarioRepositoryMemory();
-const pessoaRM = new PessoaRepositoryMemory();
-const emprestimoRM = new EmprestimoRepositoryMemory();
+const dadosconexao = {
+	user: process.env.DB_USERNAME || '',
+	password: process.env.DB_PASSWORD || '',
+	database: process.env.DB_DATABASE || '',
+	host: process.env.DB_HOST || '',
+	port: process.env.DB_PORT || ''
+}
 
-const itemController = new ItemController(itemRM, tipoItemRM);
-const tipoItemController = new TipoItemController(tipoItemRM);
-const usuarioController = new UsuarioController(usuarioRM);
-const pessoaController = new PessoaController(pessoaRM);
-const emprestimoController = new EmprestimoController(emprestimoRM);
+console.log(dadosconexao)
+const connectionPostgreSQL = new PostgresConnection(
+	dadosconexao
+);
+const repositoryFactory = new DatabaseRepositoryFactory(connectionPostgreSQL);
 
+const itensController = new ItemController(repositoryFactory);
 
-app.get('/',(request,response) => {
-    response.send('Hello World!');
-})
+app.get('/items', async(request, response) => {
+    response.send(await itensController.getAll({}));
+});
 
-app.get('/itens', (request, response) => {
-    response.send(itemController.getAll({}));
-})
+app.get('/items/:id', async (request, response) => {
+	const id = request.params.id;
+    response.send(await itensController.getById(id));
+});
 
-app.post('/itens', (request,response) => {
-    response.send(itemController.create(request.body))
-})
+app.delete('/items/:id', (request, response) => {
+	const id = request.params.id;
+    response.send(itensController.delete(id));
+});
 
-app.get('/tipo-itens', (request, response) => {
-    response.send(tipoItemController.getAll({}));
-})
+app.put('/items/:id', (request, response) => {
+	const id = request.params.id;
+	const body = request.body;
+	response.send(itensController.update({
+		id,
+		...body
+	}));
+});
 
-app.get('/usuarios', (request, response) => {
-    response.send(usuarioController.getAll({}));
-})
-
-app.get('/pessoas', (request, response) => {
-    response.send(pessoaController.getAll({}));
-})
-
-app.get('/emprestimos', (request, response) => {
-    response.send(emprestimoController.getAll({}));
-})
+app.post('/items',async (request, response) => {
+    response.send(await itensController.create(request.body));
+});
 
 app.listen(port, () => {
     console.log("Servidor iniciado na porta " + port)
