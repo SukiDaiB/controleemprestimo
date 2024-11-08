@@ -5,8 +5,8 @@ import { GetEmprestimoOutput } from "./get-emprestimo-output";
 export class GetEmprestimoUseCase{
     constructor(readonly emprestimoRepository: EmprestimoRepository){}
 
-    execute(input: GetEmprestimoInput):GetEmprestimoOutput{
-        const emprestimo = this.emprestimoRepository.getById(input.id);
+    async execute(input: GetEmprestimoInput):Promise<GetEmprestimoOutput>{
+        const emprestimo = await this.emprestimoRepository.getById(input.id);
 
         const output: GetEmprestimoOutput = {
             id: emprestimo.getId(),

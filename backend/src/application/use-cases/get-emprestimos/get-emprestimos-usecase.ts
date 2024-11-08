@@ -3,9 +3,9 @@ import { GetEmprestimosInput } from "./get-emprestimos-input";
 import { GetEmprestimosOutput } from "./get-emprestimos-output";
 export class GetEmprestimosUseCase{
     constructor(readonly emprestimosRepository: EmprestimoRepository){}
-    execute(input: GetEmprestimosInput): GetEmprestimosOutput[]{
+    async execute(input: GetEmprestimosInput): Promise<GetEmprestimosOutput[]>{
 
-        const listaDeEmprestimos = this.emprestimosRepository.getAll();
+        const listaDeEmprestimos = await this.emprestimosRepository.getAll();
 
         const output: GetEmprestimosOutput[] = [];
 

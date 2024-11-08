@@ -5,8 +5,8 @@ import { GetTipoItemOutput } from "./get-tipo-item-output";
 export class GetTipoItemUseCase{
     constructor(readonly tipoItemRepository: TipoItemRepository){}
 
-    execute(input: GetTipoItemInput): GetTipoItemOutput{
-        const tipo = this.tipoItemRepository.getById(input.id);
+    async execute(input: GetTipoItemInput): Promise<GetTipoItemOutput>{
+        const tipo = await this.tipoItemRepository.getById(input.id);
 
         const output: GetTipoItemOutput = {
             id: tipo.getId(),

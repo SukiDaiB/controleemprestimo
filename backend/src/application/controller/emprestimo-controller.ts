@@ -9,12 +9,12 @@ export class EmprestimoController {
         const getEmprestimos = new GetEmprestimosUseCase(this.emprestimoRepository);
         return getEmprestimos.execute(input);
     }
-    /*create(input: any) {
+    create(input: any) {
         const createEmprestimoUseCase = new CreateEmprestimoUseCase(this.emprestimoRepository);
         createEmprestimoUseCase.execute(input);
     }
     update(input: any) {
         const updateEmprestimoUseCase = new CreateEmprestimoUseCase(this.emprestimoRepository);
         updateEmprestimoUseCase.execute(input);
-    }*/
+    }
 }

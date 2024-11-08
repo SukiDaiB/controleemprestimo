@@ -5,8 +5,8 @@ import { GetItensOutput } from "./get-itens-output";
 export class GetItensUseCase{
     constructor(readonly itemRepository: ItemRepository){}
 
-    execute(input: GetItensInput): GetItensOutput[]{
-        const listaDeItens = this.itemRepository.getAll();
+    async execute(input: GetItensInput): Promise<GetItensOutput[]>{
+        const listaDeItens = await this.itemRepository.getAll();
 
         const output: GetItensOutput[] = [];
 

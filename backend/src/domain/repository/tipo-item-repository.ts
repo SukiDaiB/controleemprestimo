@@ -5,4 +5,5 @@ export interface TipoItemRepository {
     getById(id: string): Promise<TipoItem>;
     create(tipoItem: TipoItem): Promise<void>;
     update(tipoItem: TipoItem): Promise<void>;
+    delete(id: string): Promise<void>;
 }

@@ -5,8 +5,8 @@ import { GetUsuariosOutput } from "./get-usuarios-output";
 export class GetUsuariosUseCase{
     constructor(readonly usuarioRepository: UsuarioRepository){}
     
-    execute(input: GetUsuariosInput): GetUsuariosOutput[] {
-        const listaDeUsuarios = this.usuarioRepository.getAll();
+    async execute(input: GetUsuariosInput): Promise<GetUsuariosOutput[]>{
+        const listaDeUsuarios = await this.usuarioRepository.getAll();
 
         const output: GetUsuariosOutput[] = [];
 

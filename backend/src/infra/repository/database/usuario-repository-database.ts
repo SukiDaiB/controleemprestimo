@@ -1,9 +1,9 @@
 import { Pessoa } from "../../../domain/entity/pessoa";
 import { Usuario } from "../../../domain/entity/usuario";
-import { PessoaRepository } from "../../../domain/repository/pessoa-repository";
+import { UsuarioRepository } from "../../../domain/repository/usuario-repository";
 import { Connection } from "../../database/connection";
 
-export default class PessoaRepositoryDatabase implements PessoaRepository {
+export default class UsuarioRepositoryDatabase implements UsuarioRepository {
 
     constructor(private connection: Connection) {
     }
@@ -18,9 +18,9 @@ export default class PessoaRepositoryDatabase implements PessoaRepository {
                 usuarioData.pessoa_id
             )
             const usuario = new Usuario(
+                pessoa,
                 usuarioData.username,
-                usuarioData.id,
-                pessoa                
+                usuarioData.id       
                 )
 
             output.push(usuario)
@@ -30,49 +30,59 @@ export default class PessoaRepositoryDatabase implements PessoaRepository {
     }
 
     async getById(id: string): Promise<Usuario> {
-        const [ pessoaData ] = await this.connection.execute(`
+        const [ usuarioData ] = await this.connection.execute(`
             where p.id = $1`,
             [id]
         );
 
-        if (!pessoaData) {
-            throw new Error('Usuario não encontrada');
+        if (!usuarioData) {
+            throw new Error('Usuario não encontrado');
         }
 
-        const item = new Usuario(
-            pessoaData.name,
-            pessoaData.id
+        const pessoa = new Pessoa(
+            usuarioData.pessoa_name,
+            usuarioData.pessoa_id
+        )
+        const usuario = new Usuario(
+            pessoa,
+            usuarioData.username,
+            usuarioData.id       
             )
 
-        return item;
+        return usuario;
     }
     async getByUsuario(username: string): Promise<Usuario> {
-        const [ pessoaData ] = await this.connection.execute(`
+        const [ usuarioData ] = await this.connection.execute(`
             where p.id = $1`,
             [username]
         );
 
-        if (!pessoaData) {
-            throw new Error('Usuario não encontrada');
+        if (!usuarioData) {
+            throw new Error('Usuario não encontrado');
         }
 
-        const item = new Usuario(
-            pessoaData.name,
-            pessoaData.id
+        const pessoa = new Pessoa(
+            usuarioData.pessoa_name,
+            usuarioData.pessoa_id
+        )
+        const usuario = new Usuario(
+            pessoa,
+            usuarioData.username,
+            usuarioData.id       
             )
 
-        return item;
+        return usuario;
     }
-    async create(pessoa: Usuario): Promise<void> {
+    async create(usuario: Usuario): Promise<void> {
         await this.connection.execute(`
-            values ($1, $2)`,
-            [pessoa.getId(),pessoa.getName]);        
+            values ($1, $2, $3)`,
+            [usuario.getId(),usuario.getPessoa(),usuario.getUsername()]);        
     }
 
-    async update(pessoa: Usuario): Promise<void> {
+    async update(usuario: Usuario): Promise<void> {
         await this.connection.execute(`
-            values ($1, &2)`,
-            [pessoa.getId(),pessoa.getName]);
+            values ($1, $2, $3)`,
+            [usuario.getId(),usuario.getPessoa(),usuario.getUsername()]);   
     }
     async delete(id: string): Promise<void> {
         throw new Error("Method not implemented.");
