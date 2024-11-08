@@ -4,7 +4,7 @@ import { RepositoryFactory } from "../../../domain/repository/repository-factory
 import { UsuarioRepository } from "../../../domain/repository/usuario-repository";
 import { CreateUsuarioInput } from "./create-usuario-input";
 
-export class CreateItemUseCase { 
+export class CreateUsuarioUseCase { 
     private pessoaRepository: PessoaRepository;
     private usuarioRepository: UsuarioRepository;
     constructor(private repositoryFactory: RepositoryFactory

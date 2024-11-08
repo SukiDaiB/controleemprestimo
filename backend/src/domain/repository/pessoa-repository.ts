@@ -5,4 +5,5 @@ export interface PessoaRepository {
     getById(id: string): Promise<Pessoa>;
     create(pessoa: Pessoa): Promise<void>;
     update(pessoa: Pessoa): Promise<void>;
+    delete(id: string): Promise<void>;
 }

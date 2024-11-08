@@ -7,7 +7,7 @@ import { TipoItemRepository } from "../../../domain/repository/tipo-item-reposit
 import { UsuarioRepository } from "../../../domain/repository/usuario-repository";
 import { CreateEmprestimoInput } from "./create-emprestimo-input";
 
-export class CreateItemUseCase { 
+export class CreateEmprestimoUseCase { 
     private pessoaRepository: PessoaRepository;
     private usuarioRepository: UsuarioRepository;
     private itemRepository: ItemRepository;

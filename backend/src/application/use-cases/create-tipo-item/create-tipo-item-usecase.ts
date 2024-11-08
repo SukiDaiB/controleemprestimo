@@ -3,7 +3,7 @@ import { RepositoryFactory } from "../../../domain/repository/repository-factory
 import { TipoItemRepository } from "../../../domain/repository/tipo-item-repository";
 import { CreateTipoItemInput } from "./create-tipo-item-input";
 
-export class CreateItemUseCase { 
+export class CreateTipoItemUseCase { 
     private tipoItemRepository: TipoItemRepository;
     constructor(private repositoryFactory: RepositoryFactory
     ) {

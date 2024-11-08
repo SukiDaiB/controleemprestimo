@@ -44,8 +44,8 @@ export class ItemController{
 
     update(input: UpdateItemInput) {
         const updateItemUseCase = new UpdateItemUseCase(
-            this.itemRepository
-            /*this.tipoItemRepository*/
+            this.itemRepository,
+            this.tipoItemRepository
         );
         return updateItemUseCase.execute(input);
     }
