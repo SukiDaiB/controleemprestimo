@@ -38,5 +38,7 @@ export class TipoItemRepositoryDatabase implements TipoItemRepository{
             where id = $2`, 
             [itemType.getName(), itemType.getId()]);
     }
-
+    async delete(id: string): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
 }

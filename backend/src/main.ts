@@ -3,6 +3,8 @@ import express from 'express';
 import { PostgresConnection } from "./infra/database/postgres-connection";
 import { DatabaseRepositoryFactory } from "./infra/database/database-repository-factory";
 import { ItemController } from "./application/controller/item-controller";
+import ItemRepositoryDatabase from "./infra/repository/database/item-repository-database";
+import { TipoItemRepositoryDatabase } from "./infra/repository/database/tipo-item-repository-database";
 
 config();
 const app = express();
@@ -28,8 +30,10 @@ const connectionPostgreSQL = new PostgresConnection(
 	dadosconexao
 );
 const repositoryFactory = new DatabaseRepositoryFactory(connectionPostgreSQL);
+const itemRepository = new ItemRepositoryDatabase(connectionPostgreSQL);
+const tipoItemRepository = new TipoItemRepositoryDatabase(connectionPostgreSQL);
 
-const itensController = new ItemController(repositoryFactory);
+const itensController = new ItemController(repositoryFactory,itemRepository,tipoItemRepository);
 
 app.get('/items', async(request, response) => {
     response.send(await itensController.getAll({}));
