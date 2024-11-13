@@ -9,16 +9,21 @@ export default class EmprestimoRepositoryDatabase implements EmprestimoRepositor
 
     async getAll(): Promise<Emprestimo[]>{
         const output = []
-        const emprestimosData = await this.connection.execute(``);
+        const emprestimosData = await this.connection.execute(`
+            SELECT emprestimos.id,pessoas.nome,pessoas.documento,usuarios.nome_usuario,tipos_item.nome,itens.nome as ni,emprestimos.data_emprestimo,emprestimos.data_devolucao FROM emprestimos
+            LEFT JOIN pessoas ON emprestimos.id_pessoa = pessoas.id 
+            LEFT JOIN usuarios ON emprestimos.id_usuario = usuarios.id 
+            LEFT JOIN itens ON emprestimos.id_item = itens.id 
+            LEFT JOIN tipos_item ON itens.id_tipo_item = tipos_item.id`);
 
         for (const emprestimoData of emprestimosData) {
             const emprestimo = new Emprestimo(
                 emprestimoData.id,
-                emprestimoData.pessoa,
-                emprestimoData.usuario,
-                emprestimoData.item,
-                emprestimoData.dataEmprestimo,
-                emprestimoData.dataDevolucao
+                emprestimoData.nome,
+                emprestimoData.nome_usuario,
+                emprestimoData.ni,
+                emprestimoData.data_emprestimo,
+                emprestimoData.data_devolucao
                 )
 
             output.push(emprestimo)

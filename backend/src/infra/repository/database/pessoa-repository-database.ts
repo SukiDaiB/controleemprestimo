@@ -9,12 +9,13 @@ export default class PessoaRepositoryDatabase implements PessoaRepository {
     
     async getAll(): Promise<Pessoa[]> {
         const output = []
-        const pessoasData = await this.connection.execute(`CÓDIGO SQL AQUI`);
+        const pessoasData = await this.connection.execute(`select pessoas.id, pessoas.nome, pessoas.documento from pessoas`);
 
         for (const pessoaData of pessoasData) {
 
             const pessoa = new Pessoa(
-                pessoaData.name,
+                pessoaData.nome,
+                pessoaData.documento,
                 pessoaData.id
                 )
 

@@ -5,11 +5,20 @@ import { DatabaseRepositoryFactory } from "./infra/database/database-repository-
 import { ItemController } from "./application/controller/item-controller";
 import ItemRepositoryDatabase from "./infra/repository/database/item-repository-database";
 import { TipoItemRepositoryDatabase } from "./infra/repository/database/tipo-item-repository-database";
+import EmprestimoRepositoryDatabase from "./infra/repository/database/emprestimo-repository-database";
+import UsuarioRepositoryDatabase from "./infra/repository/database/usuario-repository-database";
+import PessoaRepositoryDatabase from "./infra/repository/database/pessoa-repository-database";
+import { EmprestimoController } from "./application/controller/emprestimo-controller";
+import { TipoItemController } from "./application/controller/tipo-item-controller";
+import { PessoaController } from "./application/controller/pessoa-controller";
+import { UsuarioController } from "./application/controller/usuario-controller";
 
 config();
 const app = express();
 const port = 3003;
+
 app.use(express.json())
+
 app.all('*', function (req, res, next) {
 			res.header('Access-Control-Allow-Origin', '*');
 			res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
@@ -29,27 +38,51 @@ console.log(dadosconexao)
 const connectionPostgreSQL = new PostgresConnection(
 	dadosconexao
 );
+
 const repositoryFactory = new DatabaseRepositoryFactory(connectionPostgreSQL);
 const itemRepository = new ItemRepositoryDatabase(connectionPostgreSQL);
 const tipoItemRepository = new TipoItemRepositoryDatabase(connectionPostgreSQL);
+const pessoaRepository = new PessoaRepositoryDatabase(connectionPostgreSQL);
+const usuarioRepository = new UsuarioRepositoryDatabase(connectionPostgreSQL);
+const emprestimoRepository = new EmprestimoRepositoryDatabase(connectionPostgreSQL);
 
+const tiposItemController = new TipoItemController(repositoryFactory,tipoItemRepository)
 const itensController = new ItemController(repositoryFactory,itemRepository,tipoItemRepository);
+const pessoasController = new PessoaController(repositoryFactory,pessoaRepository)
+const usuariosController = new UsuarioController(repositoryFactory,usuarioRepository,pessoaRepository);
+const emprestimosController = new EmprestimoController(repositoryFactory,itemRepository,usuarioRepository,pessoaRepository,emprestimoRepository);
 
-app.get('/items', async(request, response) => {
+app.get('/itens', async(request, response) => {
     response.send(await itensController.getAll({}));
 });
 
-app.get('/items/:id', async (request, response) => {
+app.get('/tipos_item', async(request, response) => {
+    response.send(await tiposItemController.getAll({}));
+});
+
+app.get('/pessoas', async(request, response) => {
+    response.send(await pessoasController.getAll({}));
+});
+
+app.get('/usuarios', async(request, response) => {
+    response.send(await usuariosController.getAll({}));
+});
+
+app.get('/emprestimos', async(request, response) => {
+    response.send(await emprestimosController.getAll({}));
+});
+
+app.get('/itens/:id', async (request, response) => {
 	const id = request.params.id;
     response.send(await itensController.getById(id));
 });
 
-app.delete('/items/:id', (request, response) => {
+app.delete('/itens/:id', (request, response) => {
 	const id = request.params.id;
     response.send(itensController.delete(id));
 });
 
-app.put('/items/:id', (request, response) => {
+app.put('/itens/:id', (request, response) => {
 	const id = request.params.id;
 	const body = request.body;
 	response.send(itensController.update({
@@ -58,7 +91,7 @@ app.put('/items/:id', (request, response) => {
 	}));
 });
 
-app.post('/items',async (request, response) => {
+app.post('/itens',async (request, response) => {
     response.send(await itensController.create(request.body));
 });
 

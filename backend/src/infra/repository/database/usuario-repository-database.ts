@@ -10,16 +10,18 @@ export default class UsuarioRepositoryDatabase implements UsuarioRepository {
     
     async getAll(): Promise<Usuario[]> {
         const output = []
-        const usuariosData = await this.connection.execute(`CÓDIGO SQL AQUI`);
+        const usuariosData = await this.connection.execute(`
+            select pessoas.nome as np,usuarios.id_pessoa as ip,usuarios.nome_usuario as nome, usuarios.id from usuarios
+            left join pessoas on usuarios.id_pessoa = pessoas.id`);
 
         for (const usuarioData of usuariosData) {
             const pessoa = new Pessoa(
-                usuarioData.pessoa_name,
-                usuarioData.pessoa_id
+                usuarioData.np,
+                usuarioData.ip
             )
             const usuario = new Usuario(
                 pessoa,
-                usuarioData.username,
+                usuarioData.nome,
                 usuarioData.id       
                 )
 

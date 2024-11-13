@@ -10,7 +10,7 @@ import { GetEmprestimosUseCase } from "../use-cases/get-emprestimos/get-empresti
 import { UpdateEmprestimoInput } from "../use-cases/update-emprestimo/update-emprestimo-input";
 import { UpdateEmprestimoUseCase } from "../use-cases/update-emprestimo/update-emprestimo-usecase";
 
-export class ItemController{
+export class EmprestimoController{
     constructor(private repositoryFactory: RepositoryFactory, 
         private readonly itemRepository:ItemRepository,
         private readonly usuarioRepository:UsuarioRepository,
