@@ -19,7 +19,8 @@ export class TipoItemRepositoryDatabase implements TipoItemRepository{
     async getById(id: string): Promise<TipoItem> {
         const [ itemTypeData ] = await this.connection.execute(`
             select id, nome from tipos_item
-            where id = $1`, [id]);
+            where id = $1`,
+            [id]);
 
         if (!itemTypeData){
             throw new Error('Tipo de Item não encontrado');
@@ -39,6 +40,9 @@ export class TipoItemRepositoryDatabase implements TipoItemRepository{
             [itemType.getName(), itemType.getId()]);
     }
     async delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+        const [ itemTypeData ] = await this.connection.execute(`
+            DELETE FROM tipos_item
+            WHERE id = $1`,
+            [id]);
     }
 }

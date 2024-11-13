@@ -11,7 +11,7 @@ export class UpdatePessoaUseCase {
     async execute(input: UpdatePessoaInput): Promise<UpdatePessoaOutput> {
         const pessoa = await this.pessoaRepository.getById(input.id);
         
-        const newPessoa = new Pessoa(input.name,pessoa.getId());
+        const newPessoa = new Pessoa(input.name,input.document,pessoa.getId());
 
         this.pessoaRepository.update(newPessoa);
     

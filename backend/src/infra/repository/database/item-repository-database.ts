@@ -14,7 +14,7 @@ export default class ItemRepositoryDatabase implements ItemRepository {
         const itensData = await this.connection.execute(`
             select itens.id, itens.nome, tipos_item.id as tipo_item_id, tipos_item.nome as nome_tipoitem
             from itens 
-            left join tipos_item on itens.tipo_item_id = tipos_item.id`);
+            left join tipos_item on itens.id_tipo_item = tipos_item.id`);
 
         for (const itemData of itensData) {
             const tipoItem = new TipoItem(
@@ -36,10 +36,10 @@ export default class ItemRepositoryDatabase implements ItemRepository {
 
     async getById(id: string): Promise<Item> {
         const [ itemData ] = await this.connection.execute(`
-            select i.id, i.nome, ti.id as tipo_item_id, ti.nome as nome_tipoitem
-            from itens i 
-            left join tipos_item ti on i.tipo_item_id = ti.id
-            where i.id = $1`,
+            SELECT i.id, i.nome, ti.id AS tipo_item_id, ti.nome AS nome_tipoitem
+            FROM itens i
+            LEFT JOIN tipos_item ti ON i.id_tipo_item = ti.id
+            WHERE i.id = $1;`,
             [id]
         );
 
@@ -62,21 +62,24 @@ export default class ItemRepositoryDatabase implements ItemRepository {
     }
     async create(item: Item): Promise<void> {
         await this.connection.execute(`
-            insert into itens(id, nome, tipo_item_id)
-            values ($1, $2, $3)`,
+            INSERT INTO itens (id, nome, id_tipo_item)
+            VALUES ($1, $2, $3)`,
             [item.id, item.name, item.getTipoItem().getId()]);        
     }
-
+    
     async update(item: Item): Promise<void> {
         await this.connection.execute(`
-            update itens set
-            nome = $1,
-            tipo_item_id = $2
-            where id = $3
-            `,
+            UPDATE itens
+            SET nome = $1,
+                id_tipo_item = $2
+            WHERE id = $3`,
             [item.name, item.getTipoItem().getId(), item.id]);
     }
+    
     async delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+        await this.connection.execute(`
+            DELETE FROM itens
+            WHERE id = $1`,
+            [id]);
     }
 }

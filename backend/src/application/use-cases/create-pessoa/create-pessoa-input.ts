@@ -1,3 +1,4 @@
 export type CreatePessoaInput = {
-    name:string
+    name:string;
+    document:string;
 }

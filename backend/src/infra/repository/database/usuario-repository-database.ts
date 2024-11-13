@@ -9,84 +9,106 @@ export default class UsuarioRepositoryDatabase implements UsuarioRepository {
     }
     
     async getAll(): Promise<Usuario[]> {
-        const output = []
+        const output = [];
         const usuariosData = await this.connection.execute(`
-            select pessoas.nome as np,usuarios.id_pessoa as ip,usuarios.nome_usuario as nome, usuarios.id from usuarios
-            left join pessoas on usuarios.id_pessoa = pessoas.id`);
-
+            SELECT pessoas.nome AS nome_pessoa, pessoas.documento, usuarios.id_pessoa AS id_pessoa, usuarios.nome_usuario AS nome, usuarios.id
+            FROM usuarios
+            LEFT JOIN pessoas ON usuarios.id_pessoa = pessoas.id
+        `);
+    
         for (const usuarioData of usuariosData) {
             const pessoa = new Pessoa(
-                usuarioData.np,
-                usuarioData.ip
-            )
+                usuarioData.documento,
+                usuarioData.nome_pessoa,
+                usuarioData.id_pessoa
+            );
             const usuario = new Usuario(
                 pessoa,
                 usuarioData.nome,
                 usuarioData.id       
-                )
-
-            output.push(usuario)
+            );
+    
+            output.push(usuario);
         }
-
+    
         return output;
-    }
-
+    }    
+    
     async getById(id: string): Promise<Usuario> {
         const [ usuarioData ] = await this.connection.execute(`
-            where p.id = $1`,
+            SELECT pessoas.nome AS pessoa_name, pessoas.id AS pessoa_id, usuarios.nome_usuario AS username, usuarios.id
+            FROM usuarios
+            LEFT JOIN pessoas ON usuarios.id_pessoa = pessoas.id
+            WHERE usuarios.id = $1`,
             [id]
         );
-
+    
         if (!usuarioData) {
             throw new Error('Usuario não encontrado');
         }
-
+    
         const pessoa = new Pessoa(
             usuarioData.pessoa_name,
             usuarioData.pessoa_id
-        )
+        );
         const usuario = new Usuario(
             pessoa,
             usuarioData.username,
             usuarioData.id       
-            )
-
+        );
+    
         return usuario;
     }
+    
     async getByUsuario(username: string): Promise<Usuario> {
         const [ usuarioData ] = await this.connection.execute(`
-            where p.id = $1`,
+            SELECT pessoas.nome AS pessoa_name, pessoas.id AS pessoa_id, usuarios.nome_usuario AS username, usuarios.id
+            FROM usuarios
+            LEFT JOIN pessoas ON usuarios.id_pessoa = pessoas.id
+            WHERE usuarios.nome_usuario = $1`,
             [username]
         );
-
+    
         if (!usuarioData) {
             throw new Error('Usuario não encontrado');
         }
-
+    
         const pessoa = new Pessoa(
             usuarioData.pessoa_name,
             usuarioData.pessoa_id
-        )
+        );
         const usuario = new Usuario(
             pessoa,
             usuarioData.username,
             usuarioData.id       
-            )
-
+        );
+    
         return usuario;
     }
+    
     async create(usuario: Usuario): Promise<void> {
         await this.connection.execute(`
-            values ($1, $2, $3)`,
-            [usuario.getId(),usuario.getPessoa(),usuario.getUsername()]);        
+            INSERT INTO usuarios (id, id_pessoa, nome_usuario)
+            VALUES ($1, $2, $3)`,
+            [usuario.getId(), usuario.getPessoa().getId(), usuario.getUsername()]
+        );
     }
-
+    
     async update(usuario: Usuario): Promise<void> {
         await this.connection.execute(`
-            values ($1, $2, $3)`,
-            [usuario.getId(),usuario.getPessoa(),usuario.getUsername()]);   
+            UPDATE usuarios
+            SET id_pessoa = $1, nome_usuario = $2
+            WHERE id = $3`,
+            [usuario.getPessoa().getId(), usuario.getUsername(), usuario.getId()]
+        );
     }
+    
     async delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+        await this.connection.execute(`
+            DELETE FROM usuarios
+            WHERE id = $1`,
+            [id]
+        );
     }
+    
 }

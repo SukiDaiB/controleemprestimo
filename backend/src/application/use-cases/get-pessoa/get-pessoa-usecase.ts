@@ -10,7 +10,8 @@ export class GetPessoaUseCase {
 
         const output: GetPessoaOutput = {
             id: pessoa.getId(),
-            name: pessoa.getName()
+            name: pessoa.getName(),
+            document: pessoa.getDocument()
         }
 
         return output;

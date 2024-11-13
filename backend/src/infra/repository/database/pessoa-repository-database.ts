@@ -9,15 +9,17 @@ export default class PessoaRepositoryDatabase implements PessoaRepository {
     
     async getAll(): Promise<Pessoa[]> {
         const output = []
-        const pessoasData = await this.connection.execute(`select pessoas.id, pessoas.nome, pessoas.documento from pessoas`);
+        const pessoasData = await this.connection.execute(`
+            select pessoas.id, pessoas.nome, pessoas.documento from pessoas
+            `);
 
         for (const pessoaData of pessoasData) {
 
             const pessoa = new Pessoa(
-                pessoaData.nome,
                 pessoaData.documento,
+                pessoaData.nome,
                 pessoaData.id
-                )
+            );
 
             output.push(pessoa)
         }
@@ -27,7 +29,8 @@ export default class PessoaRepositoryDatabase implements PessoaRepository {
 
     async getById(id: string): Promise<Pessoa> {
         const [ pessoaData ] = await this.connection.execute(`
-            where p.id = $1`,
+            select pessoas.id, pessoas.nome, pessoas.documento from pessoas
+            where pessoas.id = $1`,
             [id]
         );
 
@@ -36,7 +39,8 @@ export default class PessoaRepositoryDatabase implements PessoaRepository {
         }
 
         const pessoa = new Pessoa(
-            pessoaData.name,
+            pessoaData.documento,
+            pessoaData.nome,
             pessoaData.id
             )
 
@@ -44,16 +48,22 @@ export default class PessoaRepositoryDatabase implements PessoaRepository {
     }
     async create(pessoa: Pessoa): Promise<void> {
         await this.connection.execute(`
-            values ($1, $2)`,
-            [pessoa.getId(),pessoa.getName]);        
+            INSERT INTO pessoas (id, nome, documento) 
+            values ($1, $2, $3)`,
+            [pessoa.getId(),pessoa.getDocument(),pessoa.getName()]);        
     }
 
     async update(pessoa: Pessoa): Promise<void> {
         await this.connection.execute(`
-            values ($1, &2)`,
-            [pessoa.getId(),pessoa.getName]);
+            UPDATE pessoas 
+            SET nome = $3, documento = $2
+            WHERE id = $1`,
+            [pessoa.getId(),pessoa.getName(),pessoa.getDocument()]);
     }
     async delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+        await this.connection.execute(`
+            DELETE FROM pessoas
+            WHERE id = $1`,
+            [id]);
     }
 }

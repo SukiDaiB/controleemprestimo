@@ -15,7 +15,8 @@ export class GetPessoasUseCase{
             output.push(
                 {
                     id: pessoaDaLista.getId(),
-                    name: pessoaDaLista.getName()
+                    name: pessoaDaLista.getName(),
+                    document: pessoaDaLista.getDocument()
                 }
             )
         }

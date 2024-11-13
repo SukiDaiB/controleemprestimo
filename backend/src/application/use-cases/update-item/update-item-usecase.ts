@@ -12,7 +12,7 @@ export class UpdateItemUseCase {
 
     async execute(input: UpdateItemInput): Promise<UpdateItemOutput> {
         const item = await this.itemRepository.getById(input.id);
-        const tipoItem = await this.tipoItemRepository.getById(input.tipoItemId);
+        const tipoItem = await this.tipoItemRepository.getById(input.itemTypeId);
         
         const newItem = new Item(input.name,tipoItem,item.getId());
 

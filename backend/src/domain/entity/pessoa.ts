@@ -5,9 +5,9 @@ export class Pessoa {
     private name: string;
     private id: string;
 
-    constructor(name: string, document: string, id?: string){
-        this.document = document;
+    constructor(document: string, name: string, id?: string){
         this.name = name;
+        this.document = document;
         if (!id) {
             id = v4();
         }
