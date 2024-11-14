@@ -12,7 +12,7 @@ export class Usuario {
             id = v4();
         }
         this.id = id;
-        this.pessoa = pessoa
+        this.pessoa = pessoa;
     }
 
     getUsername(): string {

@@ -77,9 +77,6 @@ export default class ItemRepositoryDatabase implements ItemRepository {
     }
     
     async delete(id: string): Promise<void> {
-        await this.connection.execute(`
-            DELETE FROM itens
-            WHERE id = $1`,
-            [id]);
+        throw new Error("Method not implemented.");
     }
 }

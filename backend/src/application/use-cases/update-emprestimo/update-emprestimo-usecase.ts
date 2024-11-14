@@ -20,7 +20,7 @@ export class UpdateEmprestimoUseCase {
         const usuario = await this.usuarioRepository.getById(input.usuarioId);
         const emprestimo = await this.emprestimoRepository.getById(input.id)
         
-        const newEmprestimo = new Emprestimo(pessoa,usuario,input.dataEmprestimo,item,emprestimo.getId());
+        const newEmprestimo = new Emprestimo(pessoa,usuario,item,input.dataEmprestimo, input.dataDevolucao, emprestimo.getId());
 
         this.emprestimoRepository.update(newEmprestimo);
 

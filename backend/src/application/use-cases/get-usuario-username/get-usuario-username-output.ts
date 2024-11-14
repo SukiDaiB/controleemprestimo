@@ -4,7 +4,7 @@ type PersonOutput = {
     document:string;
 }
 
-export type GetUsuarioOutput = {
+export type GetUsuarioUsernameOutput = {
     id:string
     username:string
     pessoa: PersonOutput

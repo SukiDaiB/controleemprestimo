@@ -1,14 +1,14 @@
 import { UsuarioRepository } from "../../../domain/repository/usuario-repository";
-import { GetUsuarioInput } from "./get-usuario-input";
-import { GetUsuarioOutput } from "./get-usuario-output";
+import { GetUsuarioUsernameInput } from "./get-usuario-username-input";
+import { GetUsuarioUsernameOutput } from "./get-usuario-username-output";
 
-export class GetUsuarioUseCase{
+export class GetUsuarioUsernameUseCase{
     constructor(readonly usuarioRepository: UsuarioRepository){}
     
-    async execute(input: GetUsuarioInput): Promise<GetUsuarioOutput>{
-        const usuario = await this.usuarioRepository.getById(input.id);
+    async execute(input: GetUsuarioUsernameInput): Promise<GetUsuarioUsernameOutput>{
+        const usuario = await this.usuarioRepository.getByUsuario(input.username);
 
-        const output: GetUsuarioOutput = {
+        const output: GetUsuarioUsernameOutput = {
             id: usuario.getId(),
             username: usuario.getUsername(),
             pessoa: {

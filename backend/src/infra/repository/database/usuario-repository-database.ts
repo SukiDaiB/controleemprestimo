@@ -25,7 +25,7 @@ export default class UsuarioRepositoryDatabase implements UsuarioRepository {
             const usuario = new Usuario(
                 pessoa,
                 usuarioData.nome,
-                usuarioData.id       
+                usuarioData.id
             );
     
             output.push(usuario);
@@ -36,7 +36,7 @@ export default class UsuarioRepositoryDatabase implements UsuarioRepository {
     
     async getById(id: string): Promise<Usuario> {
         const [ usuarioData ] = await this.connection.execute(`
-            SELECT pessoas.nome AS pessoa_name, pessoas.id AS pessoa_id, usuarios.nome_usuario AS username, usuarios.id
+            SELECT pessoas.nome AS pessoa_name, pessoas.documento, pessoas.id AS pessoa_id, usuarios.nome_usuario AS username, usuarios.id
             FROM usuarios
             LEFT JOIN pessoas ON usuarios.id_pessoa = pessoas.id
             WHERE usuarios.id = $1`,
@@ -48,6 +48,7 @@ export default class UsuarioRepositoryDatabase implements UsuarioRepository {
         }
     
         const pessoa = new Pessoa(
+            usuarioData.documento,
             usuarioData.pessoa_name,
             usuarioData.pessoa_id
         );
@@ -62,7 +63,7 @@ export default class UsuarioRepositoryDatabase implements UsuarioRepository {
     
     async getByUsuario(username: string): Promise<Usuario> {
         const [ usuarioData ] = await this.connection.execute(`
-            SELECT pessoas.nome AS pessoa_name, pessoas.id AS pessoa_id, usuarios.nome_usuario AS username, usuarios.id
+            SELECT pessoas.nome AS pessoa_name, pessoas.documento, pessoas.id AS pessoa_id, usuarios.nome_usuario AS username, usuarios.id
             FROM usuarios
             LEFT JOIN pessoas ON usuarios.id_pessoa = pessoas.id
             WHERE usuarios.nome_usuario = $1`,
@@ -74,6 +75,7 @@ export default class UsuarioRepositoryDatabase implements UsuarioRepository {
         }
     
         const pessoa = new Pessoa(
+            usuarioData.documento,
             usuarioData.pessoa_name,
             usuarioData.pessoa_id
         );
@@ -94,21 +96,19 @@ export default class UsuarioRepositoryDatabase implements UsuarioRepository {
         );
     }
     
-    async update(usuario: Usuario): Promise<void> {
+    async update(user: Usuario): Promise<void> {
         await this.connection.execute(`
             UPDATE usuarios
-            SET id_pessoa = $1, nome_usuario = $2
+            SET id_pessoa = $1,
+                nome_usuario = $2
             WHERE id = $3`,
-            [usuario.getPessoa().getId(), usuario.getUsername(), usuario.getId()]
+            [user.getPessoa().getId(), user.getUsername(),user.getId()]
         );
+
     }
     
     async delete(id: string): Promise<void> {
-        await this.connection.execute(`
-            DELETE FROM usuarios
-            WHERE id = $1`,
-            [id]
-        );
+        throw new Error("Method not implemented.");
     }
     
 }

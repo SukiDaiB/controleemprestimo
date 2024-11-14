@@ -4,5 +4,4 @@ export type CreateEmprestimoInput = {
     usuarioId: string;
     itemId: string;
     dataEmprestimo: Date;
-    dataDevolucao: Date;
 }

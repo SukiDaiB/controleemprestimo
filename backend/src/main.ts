@@ -145,6 +145,11 @@ app.get('/usuarios/:id', async (request, response) => {
     response.send(await usuariosController.getById(id));
 });
 
+app.get('/usuarios/username/:username', async (request, response) => {
+    const username = request.params.username;
+    response.send(await usuariosController.getByUsuario(username));
+});
+
 app.delete('/usuarios/:id', (request, response) => {
     const id = request.params.id;
     response.send(usuariosController.delete(id));

@@ -24,7 +24,6 @@ export type CreateEmprestimoOutput = {
     id: string,
     item: ItemOutput,
     dataEmprestimo: string,
-    dataDevolucao: string,
     pessoa: PessoaOutput,
     usuario: UsuarioOutput
 }

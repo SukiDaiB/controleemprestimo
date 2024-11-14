@@ -17,7 +17,8 @@ export class GetUsuariosUseCase{
                     nomeUsuario: usuarioDaLista.getUsername(),
                     pessoa: {
                         id: usuarioDaLista.getPessoa().getId(),
-                        nome: usuarioDaLista.getPessoa().getName()
+                        nome: usuarioDaLista.getPessoa().getName(),
+                        document: usuarioDaLista.getPessoa().getDocument()
                     }
                 }
             )

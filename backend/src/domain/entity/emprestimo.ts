@@ -12,17 +12,16 @@ export class Emprestimo {
     private dataEmprestimo: Date;
     private dataDevolucao: Date | undefined;
 
-    constructor(pessoa: Pessoa , usuario: Usuario , dataEmprestimo: Date , item: Item , id?: string , dataDevolucao?: Date){
+    constructor(pessoa: Pessoa , usuario: Usuario, item: Item, dataEmprestimo: Date, dataDevolucao?: Date, id?: string ){
         if (!id) {
             id = v4();
         }
         this.id = id;
         this.item = item;
-        this.dataEmprestimo = dataEmprestimo;
         this.pessoa = pessoa
+        this.usuario = usuario;
         this.dataDevolucao = dataDevolucao;
         this.dataEmprestimo = dataEmprestimo;
-        this.usuario = usuario;
     }
 
     getId(): string {

@@ -14,7 +14,7 @@ export class UpdateUsuarioUseCase {
         const usuario = await this.usuarioRepository.getById(input.id);
         const pessoa = await this.pessoaRepository.getById(input.pessoaId);
         
-        const newPessoa = new Usuario(pessoa,input.username,pessoa.getId());
+        const newPessoa = new Usuario(pessoa,input.username,input.id);
 
         this.usuarioRepository.update(newPessoa);
 

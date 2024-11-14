@@ -3,6 +3,7 @@ import { TipoItem } from "../../../domain/entity/tipo-item";
 type PessoaOutput = {
     id:string;
     name:string;
+    document:string;
 }
 
 type ItemOutput = {
@@ -19,8 +20,8 @@ type UsuarioOutput = {
 export type GetEmprestimosOutput = {
     id:string;
     item: ItemOutput;
-    dataEmprestimo: Date
-    dataDevolucao: Date | undefined;
     pessoa: PessoaOutput;
     usuario: UsuarioOutput;
+    dataEmprestimo: Date
+    dataDevolucao: Date | undefined;
 }

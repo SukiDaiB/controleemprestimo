@@ -3,6 +3,7 @@ import { RepositoryFactory } from "../../domain/repository/repository-factory";
 import { UsuarioRepository } from "../../domain/repository/usuario-repository";
 import { CreateUsuarioUseCase } from "../use-cases/create-usuario/create-usuario-usecase";
 import { DeleteUsuarioUseCase } from "../use-cases/delete-usuario-usecase/delete-usuario";
+import { GetUsuarioUsernameUseCase } from "../use-cases/get-usuario-username/get-usuario-username-usecase";
 import { GetUsuarioUseCase } from "../use-cases/get-usuario/get-usuario-usecase";
 import { GetUsuariosUseCase } from "../use-cases/get-usuarios/get-usuarios-usecase";
 import { UpdateUsuarioInput } from "../use-cases/update-usuario/update-usuario-input";
@@ -22,6 +23,17 @@ export class UsuarioController{
         try {
             const getUsuario = new GetUsuarioUseCase(this.usuarioRepository);
             return await getUsuario.execute({id});
+        } catch (e: any) {
+            return {
+                message: e.message
+            }
+        }
+    }
+
+    async getByUsuario(username: string) {
+        try {
+            const getUsuario = new GetUsuarioUsernameUseCase(this.usuarioRepository);
+            return await getUsuario.execute({username});
         } catch (e: any) {
             return {
                 message: e.message

@@ -40,7 +40,7 @@ export class CreateEmprestimoUseCase {
         const usuario = await this.usuarioRepository.getById(input.usuarioId);
         const item = await this.itemRepository.getById(input.itemId);
 
-        const emprestimo = new Emprestimo(pessoa,usuario,input.dataEmprestimo,item)
+        const emprestimo = new Emprestimo(pessoa,usuario,item,input.dataEmprestimo)
 
         await this.emprestimoRepository.create(emprestimo);
 

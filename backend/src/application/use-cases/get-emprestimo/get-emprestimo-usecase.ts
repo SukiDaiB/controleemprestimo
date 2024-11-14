@@ -19,7 +19,8 @@ export class GetEmprestimoUseCase{
             dataDevolucao: emprestimo.getDataDevolucao(),
             pessoa: {
                 id: emprestimo.getPessoa().getId(),
-                name: emprestimo.getPessoa().getName()
+                name: emprestimo.getPessoa().getName(),
+                document: emprestimo.getPessoa().getDocument()
             },
             usuario: {
                 id: emprestimo.getUsuario().getId(),
