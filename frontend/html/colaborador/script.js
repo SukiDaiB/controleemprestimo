@@ -12,6 +12,8 @@
                 row.innerHTML = `
                     <td>${pessoas.name}</td>
                     <td>${pessoas.document}</td>
+                    <td><button class="btn btn-warning me-2">Editar</button>
+                    <button class="btn btn-danger">Excluir</button></td>
                 `;
                 tabela.appendChild(row);
             });
